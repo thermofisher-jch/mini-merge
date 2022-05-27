@@ -7,9 +7,9 @@
 mode="${1}"
 target_version="${2}"
 repack="${3}"
-if [[ "x${mode}" != "xAssayDev" ]]
+if [ "x${mode}" != "xAssayDev" ]
 then
-	if [[ "x${mode}" != "xdx" ]]
+	if [ "x${mode}" != "xdx" ]
 	then
 		echo "Required argument: AssayDev or dx"
 		exit 1
@@ -20,11 +20,11 @@ else
 	build_target_props="mode=assaydev;for_assaydev=1;for_${target_version}=1"
 fi
 
-if [[ "x${repack}" != "xfalse" ]]
+if [ "x${repack}" != "xfalse" ]
 then
-	if [[ "x${repack}" != "xtrue" ]]
+	if [ "x${repack}" != "xtrue" ]
 	then
-		if [[ "x${repack}" == "x" ]]
+		if [ "x${repack}" == "x" ]
 		then
 			repack="true"
 		else
@@ -67,7 +67,7 @@ do
 		match_to="$(echo $line | awk -F, '{print $8}')"
 		mode_to="$(echo $line | awk -F, '{print $10}')"
 		echo "${match_to} ${mode_to}"
-		if [[ "${match_to}" == "${state_now}" -a "${mode}" == "${mode_to}" ]]
+		if [ "${match_to}" == "${state_now}" -a "${mode}" == "${mode_to}" ]
 		then
 			artifact_found=1
 			url="$(echo "${line}" | awk -F, '{ print "http://lemon.itw/"$4"/TSDx/"$10"/updates/"$1"_"$2"_"$3".deb" }')"
@@ -75,7 +75,7 @@ do
 			file="$(basename "${url}")"
 			architecture="$(echo $line | awk -F, '{print $3}')"
 			version="$(echo $line | awk -F, '{print $2}')"
-			if [[ "x${repack}" == "xtrue" ]]
+			if [ "x${repack}" == "xtrue" ]
 			then
 				version="$(echo "${version}" | awk -F. '{print $1"."$2"."$3}')"
 				version="${version}-${build_num}+${build_date}"
@@ -88,7 +88,7 @@ do
 				rm -rf temp
 			fi
 
-			if [[ "${first_line}" -eq 0 ]]
+			if [ "${first_line}" -eq 0 ]
 			then
 				echo "," >> uploadBuildSpec.json
 			else
@@ -104,7 +104,7 @@ EOF
 			break
 		fi
 	done
-	if [[ "${artifact_found}" -eq 0 ]]
+	if [ "${artifact_found}" -eq 0 ]
 	then
 		echo "artifact ${artifact} not found"
 		exit 1
